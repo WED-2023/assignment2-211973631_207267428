@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chicken Invaders</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+  <!-- Floating Menu -->
+  <div class="menu">
+    <button onclick="showSection('welcome')">Welcome</button>
+    <button onclick="showSection('login')">Login</button>
+    <button onclick="showSection('register')">Register</button>
+  </div>
+
+  <!-- Sections -->
+  <div id="welcome" class="section active">
+    <img src="photos/logo.png" alt="Chicken Invaders Logo" class="logo" />
+  
+    <h1>Welcome to Chicken Invaders HQ!</h1>
+    <p>Join the space battle against the chicken army 🐔🚀</p>
+    <br>
+    <div class="numbers">Made by: <br> Matan Isar 211973631, Omer Topchi 207267428</div>
+  
+    <div class="welcome-buttons">
+      <button onclick="showSection('register')">Register</button>
+      <button onclick="showSection('login')">Login</button>
+    </div>
+  </div>
+  
+  
+
+  <div id="login" class="section">
+    <h1>Login</h1>
+    <div class="form-container">
+      <div class="form-group">
+        <label for="login-username">Username:</label>
+        <input type="text" id="login-username" placeholder="Enter username" />
+      </div>
+      <div class="form-group">
+        <label for="login-password">Password:</label>
+        <input type="password" id="login-password" placeholder="Enter password" />
+      </div>
+      <button onclick="validateLogin()">Login</button>
+    </div>
+  </div>
+  
+
+  <div id="register" class="section">
+    <h1>Register</h1>
+    <div class="form-container">
+      
+      <div class="form-group">
+        <label for="register-username">Username:</label>
+        <input type="text" id="register-username" placeholder="Choose a username" />
+      </div>
+  
+      <div class="form-group">
+        <label for="register-password">Password:</label>
+        <input type="password" id="register-password" placeholder="Create password" />
+      </div>
+  
+      <div class="form-group">
+        <label for="register-confirm-password">Confirm Password:</label>
+        <input type="password" id="register-confirm-password" placeholder="Confirm password" />
+      </div>
+  
+      <div class="form-group">
+        <label for="register-first-name">First Name:</label>
+        <input type="text" id="register-first-name" placeholder="Enter first name" />
+      </div>
+  
+      <div class="form-group">
+        <label for="register-last-name">Last Name:</label>
+        <input type="text" id="register-last-name" placeholder="Enter last name" />
+      </div>
+  
+      <div class="form-group">
+        <label for="register-email">Email:</label>
+        <input type="email" id="register-email" placeholder="Enter email address" />
+      </div>
+  
+      <div class="form-group">
+        <label for="register-birthdate">Birthdate:</label>
+        <input type="date" id="register-birthdate" />
+      </div>
+  
+      <button onclick="validateRegistration()">Submit</button>
+      
+    </div>
+  </div>
+
+  <div id="game-config" class="section">
+    <h1>Game Configuration</h1>
+    <p>Prepare for launch! 🚀 Game options will appear here.</p>
+  </div>
+  
+
+
+<script src="scripts.js"></script>
+
+
+<!-- About Button -->
+<button class="about-button" onclick="openAbout()">About</button>
+
+<!-- Modal Dialog -->
+<div id="about-modal" class="modal">
+  <div class="modal-content">
+    <span class="close-button" onclick="closeAbout()">&times;</span>
+
+    <h2>About This Website</h2>
+
+    <section class="about-section">
+      <h3>👨‍🚀 Creators</h3>
+      <p>This website was created by <strong>Omer Topchi</strong> and <strong>Matan Isar</strong> from the <em>Chicken Invader BGU Universe</em>.</p>
+    </section>
+
+    <section class="about-section">
+      <h3>🛠️ Tools & Technologies</h3>
+      <p>Built using HTML5, CSS3, and JavaScript.</p>
+      <p><em>* If a jQuery plugin or external template was used, mention it here. *</em></p>
+    </section>
+
+    <section class="about-section">
+      <h3>⚠️ Development Challenges</h3>
+      <p><em>* Add details about challenges like responsive design, modal logic, form validation, CSS layout, etc. *</em></p>
+    </section>
+
+  </div>
+</div>
+
+
+</body>
+
+<footer class="site-footer">
+  <div class="footer-content">
+    <p class="footer-title">🚀 Chicken Invaders HQ</p>
+    <p>Your intergalactic hub for space battles, fun, and flying chickens!</p>
+    <p>Contact: <a href="mailto:isarmata@post.bgu.ac.il">isarmata@post.bgu.ac.il</a></p>
+    <p>&copy; 2025 Chicken Invaders BGU Universe. All rights reserved.</p>
+  </div>
+</footer>
+</html>
