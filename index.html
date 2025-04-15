@@ -8,7 +8,13 @@
 </head>
 
 <body>
-
+  <div class="meteor-shower">
+    <div class="meteor"></div>
+    <div class="meteor"></div>
+    <div class="meteor"></div>
+    <div class="meteor"></div>
+    <div class="meteor"></div>
+  </div>
   <!-- Floating Menu -->
   <div class="menu">
     <button onclick="showSection('welcome')">Welcome</button>
@@ -95,8 +101,88 @@
 
   <div id="game-config" class="section">
     <h1>Game Configuration</h1>
-    <p>Prepare for launch! 🚀 Game options will appear here.</p>
+    <p>Prepare for launch! 🚀 Set your mission parameters below:</p>
+  
+    <!-- Game Length -->
+    <div class="form-group">
+      <label for="game-length">Game Length:</label>
+      <input type="number" id="game-length" name="game-length" min="2" value="2"> minutes
+    </div>
+  
+    <!-- Movement Keys -->
+    <div class="form-group">
+      <h3>Movement Keys</h3>
+      <div class="movement-keys">
+        <label for="move-left">Left:</label>
+        <select id="move-left"></select>
+  
+        <label for="move-right">Right:</label>
+        <select id="move-right"></select>
+  
+        <label for="move-up">Up:</label>
+        <select id="move-up"></select>
+  
+        <label for="move-down">Down:</label>
+        <select id="move-down"></select>
+      </div>
+    </div>
+
+      <!-- Firing Key -->
+    <div class="form-group">
+      <label for="fire-key">Firing Key:</label>
+      <select id="fire-key"></select>
+    </div>
+  
+    <!-- Beam Color -->
+    <div class="form-group">
+      <label for="beam-color">Choose Your Beam Color:</label>
+      <input type="color" id="beam-color" name="beam-color" value="#ff9900">
+    </div>
+  
+    <!-- Difficulty -->
+    <div class="form-group">
+      <label for="difficulty">Select Difficulty:</label>
+      <select id="difficulty" name="difficulty">
+        <option value="easy">🟢 Easy</option>
+        <option value="medium">🟡 Medium</option>
+        <option value="hard">🔴 Hard</option>
+        <option value="insane">💀 Insane</option>
+      </select>
+    </div>
+  
+    <!-- Sound Effects -->
+    <div class="form-group">
+      <label for="sound">Sound Effects:</label>
+      <input type="checkbox" id="sound" name="sound" checked> Enable epic sound effects 🔊
+    </div>
+  
+    <button onclick="startGame()">🚀 Launch Game</button>
   </div>
+  
+  <div id="spaceship" class="section">
+    <div id="game-hud" class="hud-panel">
+      <span id="hud-score">Score: 0</span>
+      <span id="hud-lives">Lives: 3</span>
+      <span id="hud-time">Time: 0s</span>
+    </div>
+  
+    <canvas id="theCanvas" width="800" height="600"></canvas>
+  
+    <audio id="blockerSound" preload="auto">
+      <source src="blocker_hit.ogg" type="audio/ogg">
+    </audio>
+    <audio id="targetSound" preload="auto">
+      <source src="target_hit.ogg" type="audio/ogg">
+    </audio>
+    <audio id="cannonSound" preload="auto">
+      <source src="cannon_fire.ogg" type="audio/ogg">
+    </audio>
+  
+    <p><input id="startButton" type="button" value="Start Game" class="start-button">
+    </p>
+  </div>
+  
+  
   
 
 
@@ -131,7 +217,38 @@
 
   </div>
 </div>
-
+<script>
+  const allKeys = [
+    "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight",
+    ..."abcdefghijklmnopqrstuvwxyz",
+    ..."0123456789",
+    "Space", "Enter",
+  ];
+  
+  // Movement default keys
+  const defaultKeys = {
+    "move-left": "ArrowLeft",
+    "move-right": "ArrowRight",
+    "move-up": "ArrowUp",
+    "move-down": "ArrowDown",
+    "fire-key": "Space" // Default for firing
+  };
+  
+  Object.keys(defaultKeys).forEach(id => {
+    const select = document.getElementById(id);
+    allKeys.forEach(key => {
+      const option = document.createElement("option");
+      option.value = key;
+      option.textContent = key;
+      if (key === defaultKeys[id]) {
+        option.selected = true;
+      }
+      select.appendChild(option);
+    });
+  });
+  </script>
+  
+<script src="spaceship-battle.js"></script>
 
 </body>
 
@@ -144,3 +261,6 @@
   </div>
 </footer>
 </html>
+
+
+

@@ -101,7 +101,40 @@ function validateRegistration() {
       }
     }
   });
+
+
+  function startGame() {
+    const beamColor = document.getElementById("beam-color").value;
+    const gameLength = parseInt(document.getElementById("game-length").value || "2") * 60000;
+    const moveLeft = document.getElementById("move-left").value;
+    const moveRight = document.getElementById("move-right").value;
+    const moveUp = document.getElementById("move-up").value;
+    const moveDown = document.getElementById("move-down").value;
+    let fireKey = document.getElementById("fire-key").value;
+    if (fireKey === "Space") fireKey = " ";
+    // Save game config for spaceship-battle.js
+    window.gameSettings = {
+      beamColor,
+      gameLength,
+      moveLeft,
+      moveRight,
+      moveUp,
+      moveDown,
+      fireKey
+      // you can pass movement/fire keys too if your game uses them
+    };
   
+    // Go to game screen
+    showSection("spaceship");
   
-  
+    // Start game only if setupGame is available
+    if (typeof setupGame === "function") {
+      setupGame();
+    }
+
+    // 💥 Start the game immediately
+    if (typeof newGame === "function") {
+    newGame();
+    }
+  }
   

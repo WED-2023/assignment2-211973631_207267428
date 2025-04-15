@@ -37,9 +37,7 @@ html, body {
     font-family: 'Orbitron', sans-serif;
 }
 
-.menu button:hover {
-    text-decoration: underline;
-}
+
 
 /* Section container */
 .section {
@@ -274,5 +272,238 @@ button:hover {
   }
   
   
+
+  .meteor-shower {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  
+  .meteor {
+    position: absolute;
+    width: 2px;
+    height: 80px;
+    background: linear-gradient(45deg, #f8f8f7, transparent);
+    opacity: 0.8;
+    transform: rotate(45deg);
+    animation: diagonal-fall 4s linear infinite;
+  }
+  
+  .meteor:nth-child(1) {
+    top: -100px;
+    left: 90%;
+    animation-delay: 0s;
+    animation-duration: 3.2s;
+  }
+  
+  .meteor:nth-child(2) {
+    top: -100px;
+    left: 70%;
+    animation-delay: 0.5s;
+    animation-duration: 4s;
+  }
+  
+  .meteor:nth-child(3) {
+    top: -100px;
+    left: 50%;
+    animation-delay: 1.2s;
+    animation-duration: 3.5s;
+  }
+  
+  .meteor:nth-child(4) {
+    top: -100px;
+    left: 30%;
+    animation-delay: 1.7s;
+    animation-duration: 4.5s;
+  }
+  
+  .meteor:nth-child(5) {
+    top: -100px;
+    left: 10%;
+    animation-delay: 2s;
+    animation-duration: 3.8s;
+  }
+  
+  @keyframes diagonal-fall {
+    0% {
+      transform: translate(0, 0) rotate(45deg);
+      opacity: 0.9;
+    }
+    100% {
+      transform: translate(-600px, 1000px) rotate(45deg); /* move diagonally */
+      opacity: 0;
+    }
+  }
+  
+  
+
+  #game-config {
+    background: rgba(27, 39, 53, 0.95);
+    border: 2px solid #3a506b;
+    border-radius: 12px;
+    padding: 20px 25px;
+    margin: 30px auto;
+    width: 90%;
+    max-width: 450px; /* Smaller width */
+    color: #f1f1f1;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+  }
+  
+  #game-config h1 {
+    font-size: 1.6em;
+    text-align: center;
+    color: #00ffe1;
+    margin-bottom: 15px;
+  }
+  
+  #game-config label {
+    font-weight: bold;
+    font-size: 0.95em;
+    margin-bottom: 4px;
+  }
+  
+  #game-config input[type="number"],
+  #game-config select,
+  #game-config input[type="color"] {
+    padding: 4px 8px;
+    font-size: 0.95em;
+    border-radius: 5px;
+    border: none;
+    background: #1c2a3a;
+    color: #fff;
+    width: auto;
+    min-width: 80px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+  }
+  
+  #game-config input[type="checkbox"] {
+    margin-left: 8px;
+  }
+  
+  #game-config button {
+    background-color: #00ffe1;
+    border: none;
+    color: #1b2735;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    display: block;
+    margin: 15px auto 0;
+    transition: background 0.3s;
+  }
+  
+  #game-config button:hover {
+    background-color: #00bfa1;
+  }
+  
+  /* Movement Keys Grid */
+  .movement-keys {
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 15px;
+    align-items: center;
+  }
+  
+  .movement-keys label {
+    margin: 0;
+    font-size: 0.9em;
+  }
+  
+  .movement-keys select {
+    margin: 0;
+    width: 100%;
+  }
+  
+  
+  
+  .menu {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 15px;
+    z-index: 1000;
+  }
+  
+  #game-config {
+    margin-top: 100px; /* push it down below the menu */
+    z-index: 1;
+  }
+
+
+
+  .start-button {
+    background-color: #00d9ff;
+    color: #000;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 20px auto;
+    display: inline-block; /* 👈 prevents full-width stretch */
+    box-shadow: 0 0 10px #00d9ff88;
+    transition: background-color 0.3s, transform 0.2s;
+    width: auto;            /* 👈 ensures it fits content */
+    max-width: fit-content; /* 👈 helps modern browsers */
+  }
+  
+  
+  .start-button:hover {
+    background-color: #1be6ff;
+    transform: scale(1.05);
+  }
+
+
+  #theCanvas {
+    border: 2px solid white;
+    display: block;
+    margin: 0 auto;
+    background-color: #000; /* optional: dark background behind game */
+    position: relative;
+  }
+
+  
+  .hud-panel {
+    position: relative;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: 30px; /* adds space from the edge */
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid #00d9ff;
+    border-radius: 12px;
+    padding: 10px 20px;
+    color: #00ffe1;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px;
+    display: flex;
+    gap: 20px;
+    justify-content: flex-end;
+    box-shadow: 0 0 10px #00d9ff88;
+    backdrop-filter: blur(6px);
+    width: fit-content;
+  }
+  
+  
+  .hud-panel span {
+    display: inline-block;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+  
+  
+
   
   
