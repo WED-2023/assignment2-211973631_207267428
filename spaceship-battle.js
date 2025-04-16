@@ -3,9 +3,9 @@
 let canvas, context;
 let intervalTimer;
 const TIME_INTERVAL = 25;
-const GAME_DURATION = 60000; // 60 seconds limit
+let GAME_DURATION = 120000; 
 const bgImage = new Image();
-bgImage.src = "images/background.jpg"; // adjust path/filename if needed
+bgImage.src = "images/background.jpg"; 
 const bgMusic = new Audio("sounds/euphoria.mp3");
 bgMusic.loop = true;
 let canvasWidth, canvasHeight;
@@ -36,8 +36,27 @@ const goodShipStartY = () => canvasHeight - 60;
 const goodShipImg = new Image();
 goodShipImg.src = 'images/goodShip.png';
 
-const enemyShipImg = new Image();
-enemyShipImg.src = 'images/enemyShip.png';
+const enemyShipImages = [
+  new Image(),
+  new Image(),
+  new Image(),
+  new Image()
+];
+
+enemyShipImages[0].src = 'images/enemyShip4.png';
+enemyShipImages[1].src = 'images/enemyShip2.png';
+enemyShipImages[2].src = 'images/enemyShip.png';
+enemyShipImages[3].src = 'images/enemyShip3.png';
+
+const explosionSound = new Audio("sounds/explosion3.mp3");
+const blastSound = new Audio("sounds/laser.mp3");
+const playerHitSound = new Audio("sounds/respawn.mp3");
+playerHitSound.volume = 0.8; 
+
+
+explosionSound.volume = 0.8;
+blastSound.volume = 0.7;
+bgMusic.volume = 0.3
 
 let score = 0;
 let lives = 3;
@@ -73,6 +92,7 @@ function setupGame() {
   context = canvas.getContext("2d");
   canvasWidth = canvas.width;
   canvasHeight = canvas.height;
+  let soundEnabled = true; 
 
   const button = document.getElementById("startButton");
   button.value = "Start New Game";
@@ -85,13 +105,29 @@ function setupGame() {
   
 
   const colorInput = document.getElementById("beam-color");
+  if (window.gameSettings) {
+    beamColor = window.gameSettings.beamColor || beamColor;
+    GAME_DURATION = window.gameSettings.gameLength || GAME_DURATION;
+    soundEnabled = window.gameSettings.soundEnabled !== false; 
+  }
+  
   if (colorInput) beamColor = colorInput.value || beamColor;
-
+  if (window.gameSettings) {
+    beamColor = window.gameSettings.beamColor || beamColor;
+    GAME_DURATION = window.gameSettings.gameLength || GAME_DURATION;
+  }
   movementKeys.left = window.gameSettings.moveLeft || "ArrowLeft";
   movementKeys.right = window.gameSettings.moveRight || "ArrowRight";
   movementKeys.up = window.gameSettings.moveUp || "ArrowUp";
   movementKeys.down = window.gameSettings.moveDown || "ArrowDown";
   movementKeys.fire = window.gameSettings.fireKey || " ";
+  if (soundEnabled) {
+    bgMusic.currentTime = 0;
+    bgMusic.play();
+  }
+  if (window.gameSettings?.selectedShip) {
+    goodShipImg.src = `images/${window.gameSettings.selectedShip}`;
+  }
 }
 
 function newGame() {
@@ -119,8 +155,7 @@ function newGame() {
   gameEnded = false;
   gameStarted = true;
 
-  bgMusic.currentTime = 0;
-  bgMusic.play();
+  
   clearInterval(intervalTimer);
   intervalTimer = setInterval(gameLoop, TIME_INTERVAL);
   document.getElementById("game-end-message")?.remove();
@@ -135,11 +170,13 @@ function createEnemyFleet() {
         y: row * (enemyShipHeight + enemySpacing),
         width: enemyShipWidth,
         height: enemyShipHeight,
-        alive: true
+        alive: true,
+        image: enemyShipImages[row] 
       });
     }
   }
 }
+
 
 function handleMovement() {
   if (keysPressed[movementKeys.left]) playerShip.x -= playerShip.speed;
@@ -160,8 +197,13 @@ function handleFiring() {
       radius: cannonballRadius
     });
     fireCooldown = FIRE_DELAY;
+
+      
+    blastSound.currentTime = 0;
+    blastSound.play();
   }
   if (fireCooldown > 0) fireCooldown -= TIME_INTERVAL;
+
 }
 
 function maybeFireEnemyBolt() {
@@ -208,8 +250,13 @@ function updatePositions() {
     enemyShips.forEach(ship => {
       if (!ship.alive) return;
       if (ball.x > ship.x && ball.x < ship.x + ship.width && ball.y > ship.y && ball.y < ship.y + ship.height) {
+
+        
+        explosionSound.currentTime = 0;
+        explosionSound.play();
         ship.alive = false;
         ball.hit = true;
+
         const rowHit = Math.floor(ship.y / (enemyShipHeight + enemySpacing));
         let bonus = 0;
         if (rowHit === 3) bonus = 5;
@@ -231,6 +278,11 @@ function updatePositions() {
     if (bolt.x > playerShip.x && bolt.x < playerShip.x + playerShip.width && bolt.y > playerShip.y && bolt.y < playerShip.y + playerShip.height) {
       bolt.hit = true;
       lives--;
+      
+      
+      playerHitSound.currentTime = 0;
+      playerHitSound.play();
+      
       if (lives <= 0) {
         gameEnded = true;
         clearInterval(intervalTimer);
@@ -268,8 +320,8 @@ function draw() {
   if (bgImage.complete) {
     context.drawImage(bgImage, 0, 0, canvasWidth, canvasHeight);
   }
-    // Draw movement boundary line at 60% height
-  context.strokeStyle = "#ffffff88"; // semi-transparent white
+    
+  context.strokeStyle = "#ffffff88"; 
   context.lineWidth = 1;
   context.beginPath();
   context.moveTo(0, canvasHeight * 0.6);
@@ -279,58 +331,104 @@ function draw() {
   context.drawImage(goodShipImg, playerShip.x, playerShip.y, playerShip.width, playerShip.height);
   context.fillStyle = beamColor;
   cannonballs.forEach(ball => {
+    const gradient = context.createRadialGradient(
+      ball.x, ball.y, 0,
+      ball.x, ball.y, ball.radius * 2
+    );
+  
+    gradient.addColorStop(0, beamColor); 
+    gradient.addColorStop(0.5, beamColor + "99"); 
+    gradient.addColorStop(1, "transparent"); 
+  
+    context.fillStyle = gradient;
+    context.shadowColor = beamColor;
+    context.shadowBlur = 15;
+  
     context.beginPath();
-    context.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+    context.arc(ball.x, ball.y, ball.radius * 1.5, 0, Math.PI * 2);
     context.fill();
+  
+   
+    context.shadowBlur = 0;
   });
+  
   enemyShips.forEach(ship => {
     if (!ship.alive) return;
-    context.drawImage(enemyShipImg, ship.x, ship.y, ship.width, ship.height);
+    context.drawImage(ship.image, ship.x, ship.y, ship.width, ship.height);
   });
-  context.fillStyle = "red";
+  
   enemyBolts.forEach(bolt => {
+    const gradient = context.createRadialGradient(
+      bolt.x, bolt.y, 0,
+      bolt.x, bolt.y, bolt.radius * 3 
+    );
+    gradient.addColorStop(0, "#ff3c3c");
+    gradient.addColorStop(0.5, "#ff3c3ccc");
+    gradient.addColorStop(1, "transparent");
+  
+    context.fillStyle = gradient;
+    context.shadowColor = "#ff3c3c";
+    context.shadowBlur = 25; 
+  
     context.beginPath();
-    context.arc(bolt.x, bolt.y, bolt.radius, 0, Math.PI * 2);
+    context.arc(bolt.x, bolt.y, bolt.radius * 2, 0, Math.PI * 2);
     context.fill();
+  
+    context.shadowBlur = 0;
   });
+  
   document.getElementById("hud-score").textContent = "Score: " + score;
   document.getElementById("hud-lives").textContent = "Lives: " + lives;
-  document.getElementById("hud-time").textContent = "Time: " + Math.floor(timeElapsed / 1000) + "s";
+  const timeLeft = Math.max(0, Math.floor((GAME_DURATION - timeElapsed) / 1000));
+  document.getElementById("hud-time").textContent = "Time Left: " + timeLeft + "s";
+
 }
 
 function displayEndMessage(message) {
-  // Remove existing message if there is one
+  
+  const spaceshipSection = document.getElementById("spaceship");
+  if (!spaceshipSection.classList.contains("active")) {
+    return;
+  }
+  
   const oldMsg = document.getElementById("game-end-message");
   if (oldMsg) oldMsg.remove();
 
   const msgDiv = document.createElement("div");
   msgDiv.id = "game-end-message";
 
-  // Set message content, including the close button
+  
   msgDiv.innerHTML = `
-    <div style="margin-bottom: 15px;">${message}</div>
-    <div id="scoreboard" style="text-align: left; font-size: 18px;"></div>
-    <button id="close-end-message" class="close-end-button">✖ Close</button>
-  `;
+  <div style="margin-bottom: 20px;">${message}</div>
+  <div id="scoreboard-container">
+    <h3 style="margin-bottom: 10px; font-size: 20px; color: #8acaf0;">📋 Session Scoreboard</h3>
+    <table class="scoreboard-table" id="scoreboard"></table>
+  </div>
+  <button id="close-end-message" class="close-end-button">✖ Close</button>
+`;
 
-  // Style the popup
+  
   Object.assign(msgDiv.style, {
     position: "absolute",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    color: "#fff",
-    fontSize: "32px",
-    background: "rgba(0,0,0,0.7)",
-    padding: "20px 40px",
-    borderRadius: "10px",
+    background: "linear-gradient(145deg, #1b2735, #141e2a)",
+    color: "#00ffe1",
+    fontFamily: "'Orbitron', sans-serif",
+    fontSize: "28px",
+    padding: "30px 50px",
+    borderRadius: "16px",
+    border: "1px solid #00d9ff",
     textAlign: "center",
-    zIndex: 999
+    zIndex: 999,
+    boxShadow: "0 0 20px #00ffe180",
+    backdropFilter: "blur(8px)"
   });
 
   document.body.appendChild(msgDiv);
 
-  // Now attach the close event listener AFTER appending
+  
   const closeBtn = document.getElementById("close-end-message");
   if (closeBtn) {
     closeBtn.addEventListener("click", () => {
@@ -343,13 +441,39 @@ function displayEndMessage(message) {
 
 
 function updateScoreboard() {
-   const board = document.getElementById("scoreboard");
-   if (!board) return;
-   board.innerHTML = "<h3 style='margin-bottom: 10px;'>📋 Session Scoreboard</h3>" +
-     sessionScores.map((s, i) =>
-       `<div>Game ${i + 1}: ${s.status} — Score: ${s.score} — Time: ${s.time}s</div>`
-     ).join("");
+  const board = document.getElementById("scoreboard");
+  if (!board) return;
+
+  
+  const sortedScores = [...sessionScores].sort((a, b) => b.score - a.score);
+
+  const latest = sessionScores[sessionScores.length - 1];
+
+  board.innerHTML = `
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Status</th>
+        <th>Score</th>
+        <th>Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${sortedScores.map((entry, index) => {
+        const isLatest = entry === latest;
+        return `
+          <tr style="${isLatest ? 'background-color:#00ffe130;font-weight:bold;color:#fff;' : ''}">
+            <td>${index + 1}</td>
+            <td>${entry.status}</td>
+            <td>${entry.score}</td>
+            <td>${entry.time}s</td>
+          </tr>`;
+      }).join("")}
+    </tbody>
+  `;
 }
+
+
 
 function addToScoreboard(status) {
    const timeSec = Math.floor(timeElapsed / 1000);

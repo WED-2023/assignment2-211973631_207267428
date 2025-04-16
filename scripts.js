@@ -8,6 +8,12 @@ function showSection(id) {
   const sections = document.querySelectorAll('.section');
   sections.forEach(section => section.classList.remove('active'));
   document.getElementById(id).classList.add('active');
+
+  // If we're leaving the game, stop the background music
+  if (id !== "spaceship" && typeof bgMusic !== "undefined") {
+    bgMusic.pause();
+    bgMusic.currentTime = 0;
+  }
 }
 
 function validateRegistration() {
@@ -21,41 +27,41 @@ function validateRegistration() {
   
     // Check if any field is empty
     if (!username || !password || !confirmPassword || !firstName || !lastName || !email || !birthdate) {
-      alert("אנא מלא את כל השדות.");
+      alert("Please fill all the fields.");
       return;
     }
   
-    // Check password strength (letters + numbers + at least 8 characters)
+    // Check password strength 
     const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
     if (!passwordRegex.test(password)) {
-      alert("הסיסמה חייבת להכיל לפחות 8 תווים, כולל אותיות ומספרים.");
+      alert("The password must contain at least 8 letters including letters and numbers.");
       return;
     }
   
     // Check that first and last name don't contain numbers
     const nameRegex = /^[A-Za-z\u0590-\u05FF\s'-]+$/;
     if (!nameRegex.test(firstName) || !nameRegex.test(lastName)) {
-      alert("שם פרטי ושם משפחה לא יכולים להכיל מספרים.");
+      alert("First name and last name can't contain numbers.");
       return;
     }
   
     // Check valid email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      alert("כתובת המייל אינה חוקית.");
+      alert("invalid email address.");
       return;
     }
   
     // Confirm password match
     if (password !== confirmPassword) {
-      alert("הסיסמה ואימות הסיסמה אינם תואמים.");
+      alert("The passwords are not matching.")
       return;
     }
   
     // Store new user in session
     registeredUsers.push({ username, password });
 
-    alert("ההרשמה הצליחה 🎉 עכשיו ניתן להתחבר.");
+    alert("Registration complete!")
     showSection('login');
   }
 
@@ -68,6 +74,8 @@ function validateRegistration() {
     );
   
     if (foundUser) {
+        // Clear scoreboard on successful login
+        sessionScores.length = 0;
         showSection('game-config');
     } else {
       alert("שם המשתמש או הסיסמה שגויים.");
@@ -82,7 +90,7 @@ function validateRegistration() {
     document.getElementById('about-modal').style.display = 'none';
   }
   
-  // Optional: close modal if clicked outside
+  
   window.onclick = function(event) {
     const modal = document.getElementById('about-modal');
     if (event.target === modal) {
@@ -104,6 +112,7 @@ function validateRegistration() {
 
 
   function startGame() {
+    const soundEnabled = document.getElementById("sound").checked;
     const beamColor = document.getElementById("beam-color").value;
     const gameLength = parseInt(document.getElementById("game-length").value || "2") * 60000;
     const moveLeft = document.getElementById("move-left").value;
@@ -111,6 +120,7 @@ function validateRegistration() {
     const moveUp = document.getElementById("move-up").value;
     const moveDown = document.getElementById("move-down").value;
     let fireKey = document.getElementById("fire-key").value;
+    
     if (fireKey === "Space") fireKey = " ";
     // Save game config for spaceship-battle.js
     window.gameSettings = {
@@ -120,21 +130,36 @@ function validateRegistration() {
       moveRight,
       moveUp,
       moveDown,
-      fireKey
-      // you can pass movement/fire keys too if your game uses them
+      fireKey,
+      soundEnabled,
+      selectedShip
+      
     };
   
-    // Go to game screen
+    
     showSection("spaceship");
   
-    // Start game only if setupGame is available
+    
     if (typeof setupGame === "function") {
       setupGame();
     }
 
-    // 💥 Start the game immediately
+    
     if (typeof newGame === "function") {
     newGame();
     }
   }
+
+
+const shipThumbnails = document.querySelectorAll('.ship-thumbnail');
+let selectedShip = "goodShip.png"; // default
+
+shipThumbnails.forEach(img => {
+  img.addEventListener('click', () => {
+    shipThumbnails.forEach(i => i.classList.remove('selected'));
+    img.classList.add('selected');
+    selectedShip = img.dataset.ship;
+  });
+});
+
   

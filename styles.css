@@ -55,29 +55,72 @@ html, body {
     max-width: 250px;
     display: block;
     margin: 0 auto 20px auto;
+    animation: pulse-logo 3s ease-in-out infinite; /*pulsing animation to logo */
 }
 
 /* Welcome Section Heading */
 #welcome h1 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 36px;
-    color: #00d9ff;
-    margin-bottom: 10px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 36px;
+  color: #00d9ff;
+  margin-bottom: 10px;
+  position: relative;
+  display: inline-block;
+  background: linear-gradient(90deg, #00d9ff, #8acaf0, #00d9ff);
+  background-size: 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: glow-wave 3s linear infinite;
+  letter-spacing: 1.5px;
 }
 
-/* Welcome Tagline */
 #welcome p {
-    font-size: 18px;
-    margin-top: -10px;
-    color: #aaa;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 18px;
+  margin-top: -10px;
+  color: #aaa;
+  letter-spacing: 1px;
 }
 
-/* Numbers (stats) */
-.numbers {
-    font-size: 22px;
-    margin: 30px 0;
-    color: #ffdb4d;
+.glow-heading {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 36px;
+  color: #00d9ff;
+  margin-bottom: 20px;
+  position: relative;
+  display: inline-block;
+  background: linear-gradient(90deg, #00d9ff, #8acaf0, #00d9ff);
+  background-size: 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: glow-wave 3s linear infinite;
+  letter-spacing: 1.5px;
+  text-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
 }
+
+
+/* stats */
+.numbers {
+  font-family: 'AudioWide', sans-serif;
+  font-size: 14px;
+  margin: 30px 0;
+  color: #ffdb4d;
+}
+.numbers a {
+  color: #00ffe1;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-block;
+  margin-top: 5px;
+  transition: color 0.3s, text-shadow 0.3s;
+  text-shadow: 0 0 8px #00ffe1aa;
+}
+
+.numbers a:hover {
+  color: #ffffff;
+  text-shadow: 0 0 12px #00ffe1, 0 0 18px #00ffe1;
+}
+
 
 /* Welcome Buttons */
 .welcome-buttons {
@@ -106,19 +149,62 @@ html, body {
 
 /* Forms Section (Login & Register) */
 .form-container {
-    max-width: 400px;
-    margin: 0 auto;
-    margin-top: 20px;
-    background-color: rgba(255, 255, 255, 0.05);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 217, 255, 0.1);
+  background: linear-gradient(145deg, #1b2735, #141e2a);
+  padding: 30px 35px;
+  border-radius: 16px;
+  border: 1px solid #00d9ff;
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.1);
+  max-width: 450px;
+  margin: 30px auto;
+  color: #e0f7ff;
+  font-family: 'Orbitron', sans-serif;
 }
 
 .form-group {
-    margin-bottom: 15px;
-    text-align: left;
+  margin-bottom: 18px;
 }
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  font-size: 0.9em;
+  color: #8acaf0;
+  margin-bottom: 6px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 0.95em;
+  border-radius: 6px;
+  border: 1px solid #00d9ff;
+  background: #101b27;
+  color: #fff;
+  box-sizing: border-box;
+}
+
+.form-container button {
+  background-color: #00ffe1;
+  color: #0d1a26;
+  font-weight: bold;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1em;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  display: block;
+  margin: 20px auto 0;
+  box-shadow: 0 0 10px #00ffe180;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.form-container button:hover {
+  background-color: #00bfa1;
+  transform: scale(1.05);
+}
+
+
 
 label {
     display: block;
@@ -151,32 +237,6 @@ button:hover {
 
 
 /* footer */
-.site-footer {
-    background-color: #111;
-    color: #ccc;
-    text-align: center;
-    padding: 20px 0;
-    font-size: 14px;
-    border-top: 1px solid #444;
-    margin-top: 80px;
-  }
-  
-  .site-footer a {
-    color: #00d9ff;
-    text-decoration: none;
-  }
-  
-  .site-footer a:hover {
-    text-decoration: underline;
-  }
-  
-  .footer-title {
-    font-weight: bold;
-    font-size: 16px;
-    margin-bottom: 5px;
-    color: #ffdb4d;
-  }
-
   .site-footer {
     background-color: #111;
     color: #ccc;
@@ -184,7 +244,7 @@ button:hover {
     padding: 20px 0;
     font-size: 14px;
     border-top: 1px solid #444;
-    margin-top: auto; /* 👈 Pushes footer to the bottom */
+    margin-top: auto; /* Pushes footer to the bottom */
   }
   
   .site-footer a {
@@ -204,7 +264,25 @@ button:hover {
   }
 
 
-  /* About Button (floating corner button) */
+  
+  .site-footer a {
+    color: #00d9ff;
+    text-decoration: none;
+  }
+  
+  .site-footer a:hover {
+    text-decoration: underline;
+  }
+  
+  .footer-title {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #ffdb4d;
+  }
+
+
+  /* About Button */
 .about-button {
     position: fixed;
     bottom: 20px;
@@ -329,6 +407,7 @@ button:hover {
     animation-duration: 3.8s;
   }
   
+  /* meteor shower */
   @keyframes diagonal-fall {
     0% {
       transform: translate(0, 0) rotate(45deg);
@@ -343,76 +422,93 @@ button:hover {
   
 
   #game-config {
-    background: rgba(27, 39, 53, 0.95);
-    border: 2px solid #3a506b;
-    border-radius: 12px;
-    padding: 20px 25px;
-    margin: 30px auto;
-    width: 90%;
-    max-width: 450px; /* Smaller width */
-    color: #f1f1f1;
-    font-family: 'Segoe UI', sans-serif;
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+    background: linear-gradient(145deg, #1b2735, #141e2a);
+    border: 1px solid #2e3c50;
+    border-radius: 16px;
+    padding: 30px 35px;
+    margin: 40px auto;
+    width: 95%;
+    max-width: 500px;
+    color: #e0f7ff;
+    font-family: 'Orbitron', sans-serif;
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+    backdrop-filter: blur(6px);
   }
   
   #game-config h1 {
-    font-size: 1.6em;
+    font-size: 1.8em;
     text-align: center;
     color: #00ffe1;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    text-shadow: 0 0 6px #00ffe180;
+  }
+  
+  #game-config p {
+    text-align: center;
+    font-size: 0.95em;
+    margin-bottom: 25px;
+    color: #a2dbe6;
   }
   
   #game-config label {
-    font-weight: bold;
-    font-size: 0.95em;
+    font-weight: 600;
+    font-size: 0.9em;
     margin-bottom: 4px;
+    color: #8acaf0;
+  }
+  
+  #game-config .form-group {
+    margin-bottom: 20px;
   }
   
   #game-config input[type="number"],
   #game-config select,
   #game-config input[type="color"] {
-    padding: 4px 8px;
+    padding: 6px 10px;
     font-size: 0.95em;
-    border-radius: 5px;
-    border: none;
-    background: #1c2a3a;
-    color: #fff;
-    width: auto;
+    border-radius: 6px;
+    border: 1px solid #00d9ff;
+    background: #101b27;
+    color: #ffffff;
+    width: 100%;               
+    box-sizing: border-box;    
+    margin: 0;                 
     min-width: 80px;
-    margin-left: 10px;
-    margin-bottom: 10px;
   }
   
+  
   #game-config input[type="checkbox"] {
-    margin-left: 8px;
+    margin-left: 10px;
+    transform: scale(1.2);
   }
   
   #game-config button {
     background-color: #00ffe1;
     border: none;
-    color: #1b2735;
-    padding: 10px 20px;
-    border-radius: 8px;
+    color: #0d1a26;
+    padding: 12px 30px;
+    border-radius: 12px;
     font-size: 1em;
     font-weight: bold;
     cursor: pointer;
     display: block;
-    margin: 15px auto 0;
-    transition: background 0.3s;
+    margin: 30px auto 0;
+    box-shadow: 0 0 10px #00ffe180;
+    transition: all 0.3s ease;
   }
   
   #game-config button:hover {
     background-color: #00bfa1;
+    transform: scale(1.05);
   }
   
-  /* Movement Keys Grid */
   .movement-keys {
-    margin-top: 10px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px 15px;
     align-items: center;
   }
+  
   
   .movement-keys label {
     margin: 0;
@@ -425,16 +521,6 @@ button:hover {
   }
   
   
-  
-  .menu {
-    position: fixed;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 15px;
-    z-index: 1000;
-  }
   
   #game-config {
     margin-top: 100px; /* push it down below the menu */
@@ -453,11 +539,11 @@ button:hover {
     font-weight: bold;
     cursor: pointer;
     margin: 20px auto;
-    display: inline-block; /* 👈 prevents full-width stretch */
+    display: inline-block; 
     box-shadow: 0 0 10px #00d9ff88;
     transition: background-color 0.3s, transform 0.2s;
-    width: auto;            /* 👈 ensures it fits content */
-    max-width: fit-content; /* 👈 helps modern browsers */
+    width: auto;            
+    max-width: fit-content; 
   }
   
   
@@ -471,7 +557,7 @@ button:hover {
     border: 2px solid white;
     display: block;
     margin: 0 auto;
-    background-color: #000; /* optional: dark background behind game */
+    background-color: #000; 
     position: relative;
   }
 
@@ -480,7 +566,7 @@ button:hover {
     position: relative;
     margin-top: 10px;
     margin-left: auto;
-    margin-right: 30px; /* adds space from the edge */
+    margin-right: 30px; 
     background: rgba(0, 0, 0, 0.6);
     border: 1px solid #00d9ff;
     border-radius: 12px;
@@ -506,4 +592,136 @@ button:hover {
   
 
   
-  
+  /* pulsing logo */
+  @keyframes pulse-logo {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  /* glow wave on HQ line */
+  @keyframes glow-wave {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
+
+
+  /* Custom Checkbox Styling */
+.custom-checkbox {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+  user-select: none;
+  font-weight: bold;
+  font-size: 0.95em;
+  color: #8acaf0;
+}
+
+/* Hide the default checkbox */
+.custom-checkbox input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Custom checkmark box */
+.custom-checkbox .checkmark {
+  position: absolute;
+  left: 0;
+  top: 2px;
+  height: 18px;
+  width: 18px;
+  background-color: #101b27;
+  border: 1px solid #00d9ff;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+/* When checkbox is checked */
+.custom-checkbox input:checked ~ .checkmark {
+  background-color: #00ffe1;
+  box-shadow: 0 0 5px #00ffe1aa;
+}
+
+/* Checkmark tick (optional) */
+.custom-checkbox .checkmark::after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.custom-checkbox input:checked ~ .checkmark::after {
+  display: block;
+  left: 5px;
+  top: 1px;
+  width: 4px;
+  height: 10px;
+  border: solid #0d1a26;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+
+.scoreboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Orbitron', sans-serif;
+  color: #e0f7ff;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.scoreboard-table th,
+.scoreboard-table td {
+  border: 1px solid #00d9ff;
+  padding: 8px 12px;
+  text-align: center;
+}
+
+.scoreboard-table th {
+  background-color: #101b27;
+  color: #00ffe1;
+}
+
+.scoreboard-table tr:nth-child(even) {
+  background-color: #182735;
+}
+
+
+.ship-options {
+  display: flex;
+  justify-content: space-around;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.ship-thumbnail {
+  width: 70px;
+  height: auto;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.3s;
+}
+
+.ship-thumbnail:hover {
+  transform: scale(1.1);
+}
+
+.ship-thumbnail.selected {
+  border-color: #00ffe1;
+  box-shadow: 0 0 10px #00ffe199;
+}

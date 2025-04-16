@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chicken Invaders</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 
@@ -15,7 +18,8 @@
     <div class="meteor"></div>
     <div class="meteor"></div>
   </div>
-  <!-- Floating Menu -->
+  <header><title>Chicken Invaders</title></header>
+ 
   <div class="menu">
     <button onclick="showSection('welcome')">Welcome</button>
     <button onclick="showSection('login')">Login</button>
@@ -24,13 +28,19 @@
 
   <!-- Sections -->
   <div id="welcome" class="section active">
-    <img src="photos/logo.png" alt="Chicken Invaders Logo" class="logo" />
+    <img src="images/logo_final.png" alt="Chicken Invaders Logo" class="logo" />
   
     <h1>Welcome to Chicken Invaders HQ!</h1>
     <p>Join the space battle against the chicken army 🐔🚀</p>
     <br>
     <div class="numbers">Made by: <br> Matan Isar 211973631, Omer Topchi 207267428</div>
-  
+    <br>
+    <div class="numbers">
+      Our site is live at: <br>
+      <a href="https://wed-2023.github.io/assignment2-211973631_207267428/" target="_blank">
+        Chicken Invaders Home
+      </a>
+    </div>
     <div class="welcome-buttons">
       <button onclick="showSection('register')">Register</button>
       <button onclick="showSection('login')">Login</button>
@@ -40,7 +50,7 @@
   
 
   <div id="login" class="section">
-    <h1>Login</h1>
+    <h1 class="glow-heading">Login</h1>
     <div class="form-container">
       <div class="form-group">
         <label for="login-username">Username:</label>
@@ -56,7 +66,7 @@
   
 
   <div id="register" class="section">
-    <h1>Register</h1>
+    <h1 class="glow-heading">Register</h1>
     <div class="form-container">
       
       <div class="form-group">
@@ -106,7 +116,14 @@
     <!-- Game Length -->
     <div class="form-group">
       <label for="game-length">Game Length:</label>
-      <input type="number" id="game-length" name="game-length" min="2" value="2"> minutes
+      <input 
+        type="number" 
+        id="game-length" 
+        name="game-length" 
+        min="2" 
+        value="2"
+        onkeydown="return false;"  
+      > minutes
     </div>
   
     <!-- Movement Keys -->
@@ -124,14 +141,15 @@
   
         <label for="move-down">Down:</label>
         <select id="move-down"></select>
+
+        <label for="fire-key">Firing Key:</label>
+        <select id="fire-key"></select>
+
+        
       </div>
     </div>
 
-      <!-- Firing Key -->
-    <div class="form-group">
-      <label for="fire-key">Firing Key:</label>
-      <select id="fire-key"></select>
-    </div>
+ 
   
     <!-- Beam Color -->
     <div class="form-group">
@@ -139,21 +157,25 @@
       <input type="color" id="beam-color" name="beam-color" value="#ff9900">
     </div>
   
-    <!-- Difficulty -->
+    <!-- Select Spaceship -->
     <div class="form-group">
-      <label for="difficulty">Select Difficulty:</label>
-      <select id="difficulty" name="difficulty">
-        <option value="easy">🟢 Easy</option>
-        <option value="medium">🟡 Medium</option>
-        <option value="hard">🔴 Hard</option>
-        <option value="insane">💀 Insane</option>
-      </select>
+      <label>Select Your Spaceship:</label>
+      <div class="ship-options" id="ship-options">
+        <img src="images/goodShip.png" data-ship="goodShip.png" class="ship-thumbnail selected">
+        <img src="images/goodShip2.png" data-ship="goodShip2.png" class="ship-thumbnail">
+        <img src="images/goodShip3.png" data-ship="goodShip3.png" class="ship-thumbnail">
+        <img src="images/goodShip4.png" data-ship="goodShip4.png" class="ship-thumbnail">
+      </div>
     </div>
+
   
     <!-- Sound Effects -->
     <div class="form-group">
-      <label for="sound">Sound Effects:</label>
-      <input type="checkbox" id="sound" name="sound" checked> Enable epic sound effects 🔊
+      <label for="sound" class="custom-checkbox">
+        <input type="checkbox" id="sound" name="sound" checked>
+        <span class="checkmark"></span>
+        Enable epic background music 🔊
+      </label>
     </div>
   
     <button onclick="startGame()">🚀 Launch Game</button>
@@ -167,16 +189,6 @@
     </div>
   
     <canvas id="theCanvas" width="800" height="600"></canvas>
-  
-    <audio id="blockerSound" preload="auto">
-      <source src="blocker_hit.ogg" type="audio/ogg">
-    </audio>
-    <audio id="targetSound" preload="auto">
-      <source src="target_hit.ogg" type="audio/ogg">
-    </audio>
-    <audio id="cannonSound" preload="auto">
-      <source src="cannon_fire.ogg" type="audio/ogg">
-    </audio>
   
     <p><input id="startButton" type="button" value="Start Game" class="start-button">
     </p>
@@ -197,7 +209,7 @@
   <div class="modal-content">
     <span class="close-button" onclick="closeAbout()">&times;</span>
 
-    <h2>About This Website</h2>
+    <h1 class="glow-heading">About This Website</h1>
 
     <section class="about-section">
       <h3>👨‍🚀 Creators</h3>
@@ -206,14 +218,50 @@
 
     <section class="about-section">
       <h3>🛠️ Tools & Technologies</h3>
-      <p>Built using HTML5, CSS3, and JavaScript.</p>
-      <p><em>* If a jQuery plugin or external template was used, mention it here. *</em></p>
+      <p>Built using HTML5, CSS3, and JavaScript, There was no usage of JQuery or Templates.</p>
     </section>
 
     <section class="about-section">
       <h3>⚠️ Development Challenges</h3>
-      <p><em>* Add details about challenges like responsive design, modal logic, form validation, CSS layout, etc. *</em></p>
-    </section>
+  <div class="challenges-list">
+    <ol>
+      <li>
+        <strong>Game and Website Integration:</strong><br>
+        The game and the website were initially developed in separate files with different JavaScript logic, making integration complex. Ensuring smooth transitions between sections and syncing game settings with the UI required careful coordination.
+      </li><br>
+      <li>
+        <strong>Sound Management:</strong><br>
+        Incorporating background music and sound effects while allowing user control (e.g., enabling/disabling sounds) added technical complexity, especially when switching sections mid-game.
+      </li><br>
+      <li>
+        <strong>Form Validation and Modal Logic:</strong><br>
+        Handling input validation for registration and login, along with modals (like the About section and end-game popups), involved precise event handling to avoid conflicts with game logic.
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="about-section">
+  <h3>🕹️ Game Instructions</h3>
+  <p><strong>Game Description:</strong><br>
+    Chicken Invaders is a single-round spaceship shooter game where you control one spaceship and face off against an army of 20 enemy chickens piloting spaceships arranged in 4 rows of 5. Use your customized movement and firing keys to dodge enemy fire and eliminate all spaceships before time runs out. Fast reflexes and precision aim are key to victory!  </p>
+  <p><strong>Game Configuration:</strong><br>
+    Before launching the game, players can customize the following settings in the configuration screen:
+  </p>
+
+  <ul style="padding-left: 20px; line-height: 1.6;">
+    <li><strong>Game Length:</strong> Choose how many minutes the game lasts.</li>
+    <li><strong>Movement Keys:</strong> Assign custom keys for left, right, up, and down movement.</li>
+    <li><strong>Firing Key:</strong> Select your preferred key for shooting beams.</li>
+    <li><strong>Beam Color:</strong> Choose your laser beam color using the color picker.</li>
+    <li><strong>Sound Effects:</strong> Toggle epic background music and sound effects on or off.</li>
+    <li><strong>Spaceship Selection:</strong> Pick your spaceship design by clicking on one of the available ship images.</li>
+  </ul>
+
+  <p><strong>Goal:</strong><br>
+    Shoot down all enemy ships before the timer runs out or your lives are gone. Watch your score and aim for the top!</p>
+</section>
+
 
   </div>
 </div>
@@ -231,7 +279,7 @@
     "move-right": "ArrowRight",
     "move-up": "ArrowUp",
     "move-down": "ArrowDown",
-    "fire-key": "Space" // Default for firing
+    "fire-key": "Space" 
   };
   
   Object.keys(defaultKeys).forEach(id => {
