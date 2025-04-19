@@ -725,3 +725,24 @@ button:hover {
   border-color: #00ffe1;
   box-shadow: 0 0 10px #00ffe199;
 }
+
+
+.chicken-walker {
+  position: relative;
+  width: 100%;
+  height: 0;
+  overflow: visible;
+}
+
+#walking-chicken {
+  position: absolute;
+  bottom: 100%; /* ✅ exactly above the footer */
+  left: 0;
+  height: 80px;
+  transform: scaleX(1);
+  transition: transform 0.2s ease;
+  pointer-events: none;
+}
+
+
+

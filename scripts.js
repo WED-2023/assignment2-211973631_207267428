@@ -8,7 +8,10 @@ function showSection(id) {
   const sections = document.querySelectorAll('.section');
   sections.forEach(section => section.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-
+  const chicken = document.getElementById("walking-chicken");
+  if (chicken) {
+    chicken.style.display = (id === "welcome") ? "block" : "none";
+  }
   // If we're leaving the game, stop the background music
   if (id !== "spaceship" && typeof bgMusic !== "undefined") {
     bgMusic.pause();
@@ -161,5 +164,30 @@ shipThumbnails.forEach(img => {
     selectedShip = img.dataset.ship;
   });
 });
+
+
+window.onload = function () {
+  const chicken = document.getElementById("walking-chicken");
+  let direction = 1; // 1 for right, -1 for left
+  let pos = 0;
+
+  function moveChicken() {
+    const screenWidth = window.innerWidth;
+    const chickenWidth = chicken.offsetWidth;
+
+    pos += direction * 1.5;
+    chicken.style.left = `${pos}px`;
+
+    if (pos + chickenWidth >= screenWidth || pos <= 0) {
+      direction *= -1;
+      chicken.style.transform = `scaleX(${direction})`;
+    }
+
+    requestAnimationFrame(moveChicken);
+  }
+
+  moveChicken();
+};
+
 
   
