@@ -190,4 +190,39 @@ window.onload = function () {
 };
 
 
+let loadProgress = 0;
+const loadingBar = document.getElementById("loading-bar");
+const loadingScreen = document.getElementById("loading-screen");
+const welcomeSection = document.getElementById("welcome");
+const startTime = Date.now();
+
+function simulateLoadingChunks() {
+  const interval = setInterval(() => {
+    const increment = Math.random() * 8 + 2; // 2% to 10%
+    loadProgress += increment;
+
+    if (loadProgress >= 100) {
+      loadProgress = 100;
+      clearInterval(interval);
+
+      // ⏳ Ensure it was on screen at least 5 seconds
+      const elapsed = Date.now() - startTime;
+      const remaining = Math.max(0, 5000 - elapsed);
+
+      setTimeout(() => {
+        loadingScreen.style.display = "none";
+        welcomeSection.classList.add("active");
+      }, remaining);
+    }
+
+    loadingBar.style.width = loadProgress + "%";
+  }, 300);
+}
+
+window.addEventListener("load", () => {
+  simulateLoadingChunks(); // starts only when everything is loaded
+});
+
+
+
   

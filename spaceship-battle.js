@@ -54,7 +54,7 @@ const playerHitSound = new Audio("sounds/respawn.mp3");
 playerHitSound.volume = 0.8; 
 
 
-explosionSound.volume = 0.8;
+explosionSound.volume = 0.3;
 blastSound.volume = 0.7;
 bgMusic.volume = 0.3
 
